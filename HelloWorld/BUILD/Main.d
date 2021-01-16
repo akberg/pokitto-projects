@@ -95,5 +95,4 @@ Main.o: ../Main.cpp /home/pokitto/PokittoLib/Pokitto/Pokitto.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_HW/Pokitto_extport.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_HW/PokittoEEPROM.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_HW/iap.h \
- /home/pokitto/PokittoLib/Pokitto/POKITTO_CORE/PokittoDisk.h \
- ../pokitto_icon.h
+ /home/pokitto/PokittoLib/Pokitto/POKITTO_CORE/PokittoDisk.h
