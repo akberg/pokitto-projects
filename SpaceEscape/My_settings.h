@@ -16,7 +16,7 @@
 // For more information on each mode, see:
 // https://talk.pokitto.com/t/wiki-5-pokitto-screen-modes/1180
 // Optional. Default is MODE_FAST_16COLOR.
-//#define PROJ_SCREENMODE MODE_FAST_16COLOR
+#define PROJ_SCREENMODE MODE_FAST_16COLOR
 //#define PROJ_SCREENMODE MODE_HI_4COLOR
 //#define PROJ_SCREENMODE MODE13
 //#define PROJ_SCREENMODE MODE13

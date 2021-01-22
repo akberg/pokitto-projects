@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 
 enum StationTile {
@@ -21,15 +22,19 @@ enum StationTile {
     ERR
 };
 
-uint8_t dummy_map[] = {
-    OOB,    OOB,    OOB,    OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OOB,
-    INN_UR, EDGE_D, EDGE_D, EDGE_D, CRNR_DR,FLOOR0, CRNR_DL,EDGE_D, INN_UL,
-    EDGE_R, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, EDGE_L,
-    EDGE_R, FLOOR0, CRNR_UL,EDGE_U, CRNR_UR,FLOOR0, CRNR_UL,EDGE_U, OUT_DL,
-    EDGE_R, FLOOR0, EDGE_L, OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OOB,
-    EDGE_R, FLOOR0, EDGE_L, OOB,    OUT_DR, EDGE_U, OUT_DL, OOB,    OOB
+const uint8_t dummy_map[] = {
+    OOB,    OOB,    OOB,    OOB,    OOB,    OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OOB,    OOB,
+    OOB,    OOB,    OOB,    OOB,    OOB,    OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OOB,    OOB,
+    OOB,    OOB,    INN_UR, EDGE_D, EDGE_D, EDGE_D, CRNR_DR,FLOOR0, CRNR_DL,EDGE_D, INN_UL, OOB,
+    OOB,    OOB,    EDGE_R, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, FLOOR0, EDGE_L, OOB,
+    OOB,    OOB,    EDGE_R, FLOOR0, CRNR_UL,EDGE_U, CRNR_UR,FLOOR0, CRNR_UL,EDGE_U, OUT_DL, OOB,
+    OOB,    OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OOB,    OOB,
+    OOB,    OOB,    EDGE_R, FLOOR0, EDGE_L, OOB,    OUT_DR, EDGE_U, OUT_DL, OOB,    OOB,    OOB,
+    OOB,    INN_UR, CRNR_DR,FLOOR0, EDGE_L, OOB,    OOB,    OOB,    OOB,    OOB,    OOB,    OOB,
+    OOB,    EDGE_R, FLOOR0, FLOOR0, EDGE_L, OOB,    OOB,    OOB,    OOB,    OOB,    OOB,    OOB,
+    OOB,    OUT_DR, CRNR_UR,FLOOR0, EDGE_L, OOB,    OOB,    OOB,    OOB,    OOB,    OOB,    OOB,
 };
-uint8_t all_floor[16*16];
+// const uint8_t all_floor[16*16];
 // uint8_t dummy_map[] = {
 
 //     0x44,   0x44,   0xc0,   0xa4,   0x44,
@@ -40,7 +45,6 @@ uint8_t all_floor[16*16];
 //     0xc0,   0xa4,   0x4a,   0x44,   0x44
 // };
 
-#include <stdint.h>
 
 //Total colors 9
 const uint16_t StationTiles_pal[] = {

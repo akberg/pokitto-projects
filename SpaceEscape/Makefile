@@ -8,7 +8,7 @@ PROJECT := spaceescape
 POKITTO_LIB_PATH = $(HOME)/PokittoLib/Pokitto
 
 OBJECTS += Main.o
-#OBJECTS += DynamicDisplay.o
+#OBJECTS += assets/Map.o
 #OBJECTS += World.o
 #OBJECTS += Player.o
 
