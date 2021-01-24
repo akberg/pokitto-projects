@@ -8,7 +8,6 @@
 #include <unordered_set>
 #include <cstdlib>
 
-// //#include "Data.h" // example project
 
 enum GameResult { WIN, LOSS };
 
@@ -90,6 +89,7 @@ int dy = 0;
 
 GameResult game() 
 {
+    GameResult result = GameResult::WIN;
     /**
      * Display setup 
      * */
@@ -106,23 +106,25 @@ GameResult game()
 
     bool dialogVisible = false;
     char* dialogString;
-
+    
     // *build and load game
     // TODO: extract, extend and randomise 
-    std::vector<Scene> world;
-    Scene start(room_controlroom);
-    Scene podroom(room_podroom);
-    Scene scene0(room0);
-    Scene scene1(room1);
-    world.push_back(start);
-    world.push_back(podroom);
-    world.push_back(scene0);
-    world.push_back(scene1);
+    // std::vector<Scene*> world;
+    // Scene start(room_controlroom);
+    // Scene podroom(room_podroom);
+    // Scene scene0(room0);
+    // Scene scene1(room1);
+    // world.push_back(&start);
+    // world.push_back(&podroom);
+    // world.push_back(&scene0);
+    // world.push_back(&scene1);
     
-    start.linkScene(Direction::LEFT, &scene1);
-    scene1.linkScene(Direction::DOWN, &scene0);
-    scene1.linkScene(Direction::UP, &podroom);
-    Scene* scene = &start;
+    // start.linkScene(Direction::LEFT, &scene1);
+    // scene1.linkScene(Direction::DOWN, &scene0);
+    // scene1.linkScene(Direction::UP, &podroom);
+
+    std::vector<Scene*> world = build_world(0);
+    Scene* scene = world[0];
     // *build and load game
 
 
@@ -149,29 +151,29 @@ GameResult game()
         int16_t oldX = x;
         int16_t oldY = y;
 
-        if (PC::buttons.repeat(BTN_LEFT, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_LEFT], 5)) { 
             dialogVisible = false;
             x = x - 16; 
         }
-        if (PC::buttons.repeat(BTN_RIGHT, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_RIGHT], 5)) { 
             dialogVisible = false;
             x = x + 16; 
         }
-        if (PC::buttons.repeat(BTN_UP, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_UP], 5)) { 
             dialogVisible = false;
             y = y - 16; 
         }
-        if (PC::buttons.repeat(BTN_DOWN, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_DOWN], 5)) { 
             dialogVisible = false;
             y = y + 16; 
         }
-        if (PC::buttons.repeat(BTN_A, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_A], 5)) { 
             dialogVisible = false;
         }
-        if (PC::buttons.repeat(BTN_B, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_B], 5)) { 
             dialogVisible = false;
         }
-        if (PC::buttons.repeat(BTN_C, 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_C], 5)) { 
             dialogVisible = false;
         }
 
@@ -221,7 +223,7 @@ GameResult game()
                 x = oldX;
                 y = oldY;
             }
-            if (tileId == StationTile::POD) { return GameResult::WIN; }
+            if (tileId == StationTile::POD) { goto game_cleanup; }
         }
         if (changeScene) {
             pos_t newPos = scene->changeScene(d); // Get spawn position in next scene
@@ -248,13 +250,17 @@ GameResult game()
         PD::bgcolor = PD::invisiblecolor;
         PD::color = StationTilesColor::STRED;
         PD::setCursor(42, 2);
-        if ((int)(t_meltdown - PC::getTime()) < 0) { return GameResult::LOSS; } // Out of time
+        if ((int)(t_meltdown - PC::getTime()) < 0) { 
+            // Out of time
+            result = GameResult::LOSS;
+            goto game_cleanup; 
+        } 
         formatTime(timestring, t_meltdown - PC::getTime());
         PD::print(timestring);
 
         // !!! DEBUG !!!
-        if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
-        if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
+        // if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
+        // if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
         // !!! DEBUG !!!
 
 
@@ -283,7 +289,12 @@ GameResult game()
         }
     }
 
-    return GameResult::WIN;
+game_cleanup:
+    for (Scene* pt : world) {
+        delete pt;
+    }
+
+    return result;
 }
 
 

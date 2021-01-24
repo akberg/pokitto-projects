@@ -21,7 +21,7 @@ enum StationTile {
     OUT_DL,
     OUT_UL,
     OUT_UR,
-    
+
     PFRONT_STILL,
     PFRONT_STEP0,
     PFRONT_STEP1,
@@ -36,8 +36,7 @@ enum StationTile {
 
 const std::unordered_set<StationTile> WALKABLES { FLOOR0, CONS_L, CONS_R, CONS_D, POD };
 
-
-//Total colors 9
+#define ST_PALETTE_SIZE 11
 enum StationTilesColor { STBLACK=3, STRED=8, STWHITE=0, STINVISIBLE=7 };
 //Total colors 11
 const uint16_t StationTiles_pal[] = {
