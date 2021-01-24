@@ -27,6 +27,8 @@ public:
     pos_t changeScene(Direction);
 };
 
+int randint(int lim);
+
 std::vector<Scene*> build_world(int seed);
 
 const uint8_t num_control_mappings = 6;

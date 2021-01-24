@@ -43,19 +43,7 @@ std::vector<Scene*> build_world(int seed) {
     switch (seed)
     {
     case 0: {
-        // Simple example game
-        Scene* scene0 = new Scene(room0, control_mappings[randint(lim)]);
-        Scene* scene1 = new Scene(room1, control_mappings[randint(lim)]);
-        world.push_back(scene0);
-        world.push_back(scene1);
-        
-        start->linkScene(Direction::LEFT, scene1);
-        scene1->linkScene(Direction::DOWN, scene0);
-        scene1->linkScene(Direction::UP, podroom);
-        break;
-    }
-    case 1: {
-        // Hard coded game no 2
+        // Hard coded game no 1
         Scene* scene0 = new Scene(room4, control_mappings[randint(lim)]);
         Scene* scene1 = new Scene(room0, control_mappings[randint(lim)]);
         Scene* scene2 = new Scene(room1);
@@ -85,6 +73,45 @@ std::vector<Scene*> build_world(int seed) {
         scene11->linkScene(Direction::UP, scene12);
         podroom->linkScene(Direction::DOWN, scene10);
         podroom->linkScene(Direction::RIGHT, scene12);
+        break;
+    }
+    case 1: {
+        // Hard coded game no 2
+        Scene* scene0 = new Scene(room1, control_mappings[randint(lim)]);
+        Scene* scene1 = new Scene(room4, control_mappings[randint(lim)]);
+        Scene* scene2 = new Scene(room3);
+        Scene* scene3 = new Scene(room5, control_mappings[randint(lim)]);
+        Scene* scene4 = new Scene(room7, control_mappings[randint(lim)]);
+        Scene* scene5 = new Scene(room8, control_mappings[randint(lim)]);
+        Scene* scene6 = new Scene(room6, control_mappings[randint(lim)]);
+        Scene* scene7 = new Scene(room8, control_mappings[randint(lim)]);
+        Scene* scene8 = new Scene(room1, control_mappings[randint(lim)]);
+        Scene* scene9 = new Scene(room2, control_mappings[randint(lim)]);
+        Scene* scene10 = new Scene(room4, control_mappings[randint(lim)]);
+        Scene* scene11 = new Scene(room3);
+        Scene* scene12 = new Scene(room4, control_mappings[randint(lim)]);
+        Scene* scene13 = new Scene(room8, control_mappings[randint(lim)]);
+        Scene* scene14 = new Scene(room6, control_mappings[randint(lim)]);
+
+        start->linkScene(Direction::LEFT, scene0);
+        scene0->linkScene(Direction::UP, scene1);
+        scene0->linkScene(Direction::DOWN, scene6);
+        scene1->linkScene(Direction::LEFT, scene2);
+        scene1->linkScene(Direction::RIGHT, scene5);
+        scene2->linkScene(Direction::UP, scene3);
+        scene3->linkScene(Direction::RIGHT, scene4);
+        scene4->linkScene(Direction::DOWN, scene5);
+        scene6->linkScene(Direction::RIGHT, scene7);
+        scene6->linkScene(Direction::LEFT, scene9);
+        scene7->linkScene(Direction::UP, scene8);
+        scene8->linkScene(Direction::RIGHT, scene10);
+        scene9->linkScene(Direction::LEFT, scene10);
+        scene9->linkScene(Direction::DOWN, scene13);
+        scene10->linkScene(Direction::DOWN, scene11);
+        scene11->linkScene(Direction::RIGHT, scene12);
+        scene12->linkScene(Direction::RIGHT, scene13);
+        scene12->linkScene(Direction::DOWN, scene14);
+        scene14->linkScene(Direction::RIGHT, podroom);
     }
     default: 
         // Use seed to randomly generate world

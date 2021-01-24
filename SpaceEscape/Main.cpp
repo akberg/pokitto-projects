@@ -100,6 +100,7 @@ GameResult game()
     //PD::persistence = true;
     PD::invisiblecolor = STINVISIBLE;
 
+
     for (uint8_t i = FLOOR0; i != ERR; i++) {
         tilemap.setTile(i, 16, 16, StationTiles[i]+2);
     }
@@ -123,7 +124,7 @@ GameResult game()
     // scene1.linkScene(Direction::DOWN, &scene0);
     // scene1.linkScene(Direction::UP, &podroom);
 
-    std::vector<Scene*> world = build_world(1);
+    std::vector<Scene*> world = build_world(randint(2));
     Scene* scene = world[0];
     x = scene->map.spawn_fallback.x * TILE_SIZE;
     y = scene->map.spawn_fallback.y * TILE_SIZE;
@@ -244,6 +245,7 @@ GameResult game()
         int16_t xViewPort;
         int16_t yViewPort;
 
+        PD::bgcolor = 3;
         calculateViewPortPosition(xViewPort, yViewPort);
         tilemap.draw(xViewPort, yViewPort);
 
