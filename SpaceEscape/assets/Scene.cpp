@@ -38,7 +38,7 @@ std::vector<Scene*> build_world(int seed) {
     world.push_back(start);
     world.push_back(podroom);
 
-    int lim = ST_PALETTE_SIZE;
+    int lim = num_control_mappings;
 
     switch (seed)
     {
@@ -56,19 +56,19 @@ std::vector<Scene*> build_world(int seed) {
     }
     case 1: {
         // Hard coded game no 2
-        Scene* scene0 = new Scene(room4);
-        Scene* scene1 = new Scene(room0);
+        Scene* scene0 = new Scene(room4, control_mappings[randint(lim)]);
+        Scene* scene1 = new Scene(room0, control_mappings[randint(lim)]);
         Scene* scene2 = new Scene(room1);
-        Scene* scene3 = new Scene(room5);
-        Scene* scene4 = new Scene(room6);
-        Scene* scene5 = new Scene(room3);
-        Scene* scene6 = new Scene(room6);
-        Scene* scene7 = new Scene(room5);
-        Scene* scene8 = new Scene(room0);
-        Scene* scene9 = new Scene(room2);
-        Scene* scene10 = new Scene(room6);
+        Scene* scene3 = new Scene(room5, control_mappings[randint(lim)]);
+        Scene* scene4 = new Scene(room6, control_mappings[randint(lim)]);
+        Scene* scene5 = new Scene(room3, control_mappings[randint(lim)]);
+        Scene* scene6 = new Scene(room6, control_mappings[randint(lim)]);
+        Scene* scene7 = new Scene(room5, control_mappings[randint(lim)]);
+        Scene* scene8 = new Scene(room0, control_mappings[randint(lim)]);
+        Scene* scene9 = new Scene(room2, control_mappings[randint(lim)]);
+        Scene* scene10 = new Scene(room6, control_mappings[randint(lim)]);
         Scene* scene11 = new Scene(room8);
-        Scene* scene12 = new Scene(room7);
+        Scene* scene12 = new Scene(room7, control_mappings[randint(lim)]);
         start->linkScene(Direction::LEFT, scene0);
         scene0->linkScene(Direction::DOWN, scene1);
         scene0->linkScene(Direction::LEFT, scene2);
