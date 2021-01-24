@@ -94,10 +94,10 @@ GameResult game()
      * Display setup 
      * */
     PD::setFont(fontTight);
-    Tilemap tilemap;
+    Tilemap tilemap; // FIXME: Tilemap not drawing on the edges, leaves artifacts
     
     PD::load565Palette(StationTiles_pal);
-    PD::persistence = true;
+    //PD::persistence = true;
     PD::invisiblecolor = STINVISIBLE;
 
     for (uint8_t i = FLOOR0; i != ERR; i++) {
@@ -123,8 +123,10 @@ GameResult game()
     // scene1.linkScene(Direction::DOWN, &scene0);
     // scene1.linkScene(Direction::UP, &podroom);
 
-    std::vector<Scene*> world = build_world(0);
+    std::vector<Scene*> world = build_world(1);
     Scene* scene = world[0];
+    x = scene->map.spawn_fallback.x * TILE_SIZE;
+    y = scene->map.spawn_fallback.y * TILE_SIZE;
     // *build and load game
 
 
@@ -146,7 +148,7 @@ GameResult game()
     while (PC::isRunning()) {
         if (!PC::update()) { continue; }
 
-        PC::buttons.pollButtons();        
+        //PC::buttons.pollButtons();        
 
         int16_t oldX = x;
         int16_t oldY = y;
