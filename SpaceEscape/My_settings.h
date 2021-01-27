@@ -115,7 +115,7 @@
 // Skips the initial Pokitto/Loader/Volume screens.
 // Don't release binaries with this enabled!
 // Optional. Can be 0 or 1, default is 0.
-#define PROJ_DEVELOPER_MODE 1
+#define PROJ_DEVELOPER_MODE 0
 
 
 // Tells the Tilemap library if tiles are stored in

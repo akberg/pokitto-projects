@@ -115,8 +115,7 @@ GameResult game()
     /**
      * Build and load game
      * */
-    std::vector<Scene*> world = build_world(0);
-    //std::vector<Scene*> world = build_world(randint(2)+1);
+    std::vector<Scene*> world = build_world(randint(2)+1);
     Scene* scene = world[0];
     xTile = scene->map.spawn_fallback.x;
     yTile = scene->map.spawn_fallback.y;
@@ -157,25 +156,21 @@ GameResult game()
         if (PC::buttons.repeat(scene->controlMapping[BTN_LEFT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
             facing = Direction::LEFT;
-            // x = x - 16;
             xTile--;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_RIGHT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
             facing = Direction::RIGHT;
-            // x = x + 16; 
             xTile++;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_UP], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
             facing = Direction::UP;
-            // y = y - 16; 
             yTile--;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_DOWN], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
             facing = Direction::DOWN;
-            // y = y + 16; 
             yTile++;
         }
         if (PC::buttons.repeat(scene->controlMapping[BTN_A], 4)) { 
@@ -237,11 +232,10 @@ GameResult game()
             }
             if (tileId == StationTile::POD && x == xTile*TILE_SIZE && y == yTile*TILE_SIZE) { goto game_cleanup; }
         }
-        if (changeScene && x == xTile*TILE_SIZE && y == yTile*TILE_SIZE) {
+        if (changeScene && abs(x - xTile*TILE_SIZE) < TILE_SIZE / 2 && abs(y - yTile*TILE_SIZE) < TILE_SIZE / 2) {
             pos_t newPos = scene->changeScene(d); // Get spawn position in next scene
             xTile = newPos.x;
             yTile = newPos.y;
-            // TODO: (opt) Make direction dependent and offset to animate walking into the room
             x = xTile * TILE_SIZE;
             y = yTile * TILE_SIZE;
             scene = scene->links[d]; // Change scene
@@ -282,22 +276,22 @@ GameResult game()
         PD::print(timestring);
 
         // !!! DEBUG !!!
-        if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
-        if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
-        PD::color = STRED;
-        PD::setCursor(2, 2);
-        PD::print("tile: ");
-        PD::print(tileId);
-        PD::setCursor(0, 16);
-        PD::print("x,y: ");
-        PD::print(x);
-        PD::print(" ");
-        PD::print(y);
-        PD::setCursor(0, 24);
-        PD::print("xTile,yTile: ");
-        PD::print(xTile);
-        PD::print(" ");
-        PD::print(yTile);
+        // if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
+        // if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
+        // PD::color = STRED;
+        // PD::setCursor(2, 2);
+        // PD::print("tile: ");
+        // PD::print(tileId);
+        // PD::setCursor(0, 16);
+        // PD::print("x,y: ");
+        // PD::print(x);
+        // PD::print(" ");
+        // PD::print(y);
+        // PD::setCursor(0, 24);
+        // PD::print("xTile,yTile: ");
+        // PD::print(xTile);
+        // PD::print(" ");
+        // PD::print(yTile);
         // !!! DEBUG !!!
 
 
@@ -322,7 +316,6 @@ GameResult game()
             break;
         case RIGHT:
             sprite_index = (uint8_t)PLEFT_STILL;
-        default:
             break;
         }
 
@@ -345,8 +338,6 @@ GameResult game()
                 else if (abs(x - xTile * TILE_SIZE) < TILE_SIZE / 2) {sprite_index += 1; }
             }
         break;
-        default:
-            break;
         }
         
 
@@ -354,7 +345,6 @@ GameResult game()
             /* Special case of left flipped used as RIGHT sprite */
             PD::drawBitmapXFlipped(xPlayer, yPlayer, StationTiles[sprite_index]);
         } else {        
-            //PD::drawBitmapData(xPlayer, yPlayer, 16, 16, StationTiles[sprite_index]+2);
             PD::drawBitmap(xPlayer, yPlayer, StationTiles[sprite_index]);
         }
 
@@ -374,6 +364,9 @@ GameResult game()
         }
     }
 
+    /**
+     * Memory cleanup
+     * */
 game_cleanup:
     for (Scene* pt : world) {
         delete pt;
