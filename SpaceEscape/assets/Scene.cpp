@@ -43,6 +43,13 @@ std::vector<Scene*> build_world(int seed) {
     switch (seed)
     {
     case 0: {
+        // Debug, minimal game without controls mapping
+        Scene* scene0 = new Scene(room1);
+        start->linkScene(Direction::LEFT, scene0);
+        podroom->linkScene(Direction::DOWN, scene0);
+        break;
+    }
+    case 1: {
         // Hard coded game no 1
         Scene* scene0 = new Scene(room4, control_mappings[randint(lim)]);
         Scene* scene1 = new Scene(room0, control_mappings[randint(lim)]);
@@ -75,7 +82,7 @@ std::vector<Scene*> build_world(int seed) {
         podroom->linkScene(Direction::RIGHT, scene12);
         break;
     }
-    case 1: {
+    case 2: {
         // Hard coded game no 2
         Scene* scene0 = new Scene(room1, control_mappings[randint(lim)]);
         Scene* scene1 = new Scene(room4, control_mappings[randint(lim)]);

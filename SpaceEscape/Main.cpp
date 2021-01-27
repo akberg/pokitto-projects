@@ -21,6 +21,12 @@ uint16_t worldHeight = 10 * PROJ_TILE_H;        // 16 tiles of 16 pixels
 int16_t x = 6*PROJ_TILE_W;
 // Player y render position
 int16_t y = 3*PROJ_TILE_H;
+// Player x goto tile position
+int16_t xTile = 6;
+// Player y goto tile position
+int16_t yTile = 3;
+// Movement SPEED (must be a factor of TILE_SIZE)
+const uint8_t SPEED = 4;
 
 /**
  * Calculate viewport position to keep player in focus
@@ -84,8 +90,6 @@ void formatTime(char* buffer, int time)
     sprintf(buffer, "%02d:%02d", min, sec);
 }
 
-int dx = 0;// not in use
-int dy = 0;
 
 GameResult game() 
 {
@@ -97,9 +101,8 @@ GameResult game()
     Tilemap tilemap; // FIXME: Tilemap not drawing on the edges, leaves artifacts
     
     PD::load565Palette(StationTiles_pal);
-    //PD::persistence = true;
+    PD::persistence = true;
     PD::invisiblecolor = STINVISIBLE;
-
 
     for (uint8_t i = FLOOR0; i != ERR; i++) {
         tilemap.setTile(i, 16, 16, StationTiles[i]+2);
@@ -108,27 +111,17 @@ GameResult game()
     bool dialogVisible = false;
     char* dialogString;
     
-    // *build and load game
-    // TODO: extract, extend and randomise 
-    // std::vector<Scene*> world;
-    // Scene start(room_controlroom);
-    // Scene podroom(room_podroom);
-    // Scene scene0(room0);
-    // Scene scene1(room1);
-    // world.push_back(&start);
-    // world.push_back(&podroom);
-    // world.push_back(&scene0);
-    // world.push_back(&scene1);
-    
-    // start.linkScene(Direction::LEFT, &scene1);
-    // scene1.linkScene(Direction::DOWN, &scene0);
-    // scene1.linkScene(Direction::UP, &podroom);
 
-    std::vector<Scene*> world = build_world(randint(2));
+    /**
+     * Build and load game
+     * */
+    std::vector<Scene*> world = build_world(0);
+    //std::vector<Scene*> world = build_world(randint(2)+1);
     Scene* scene = world[0];
+    xTile = scene->map.spawn_fallback.x;
+    yTile = scene->map.spawn_fallback.y;
     x = scene->map.spawn_fallback.x * TILE_SIZE;
     y = scene->map.spawn_fallback.y * TILE_SIZE;
-    // *build and load game
 
 
     /**
@@ -147,62 +140,71 @@ GameResult game()
 
     
     while (PC::isRunning()) {
-        if (!PC::update()) { continue; }
+        if (!PC::update()) { continue; }       
 
-        //PC::buttons.pollButtons();        
+        // int16_t oldX = x;
+        // int16_t oldY = y;
+        int16_t oldX = xTile; // Old coordinate tile
+        int16_t oldY = yTile;
+        int tileId = StationTile::ERR;
 
-        int16_t oldX = x;
-        int16_t oldY = y;
 
-        if (PC::buttons.repeat(scene->controlMapping[BTN_LEFT], 5)) { 
+        /**
+         * Manage input (with scene's mapping) whenever player is not transitioning
+         * */
+        if (PC::buttons.repeat(scene->controlMapping[BTN_LEFT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
-            x = x - 16; 
+            // x = x - 16;
+            xTile--;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_RIGHT], 5)) { 
+        else if (PC::buttons.repeat(scene->controlMapping[BTN_RIGHT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
-            x = x + 16; 
+            // x = x + 16; 
+            xTile++;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_UP], 5)) { 
+        else if (PC::buttons.repeat(scene->controlMapping[BTN_UP], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
-            y = y - 16; 
+            // y = y - 16; 
+            yTile--;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_DOWN], 5)) { 
+        else if (PC::buttons.repeat(scene->controlMapping[BTN_DOWN], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
-            y = y + 16; 
+            // y = y + 16; 
+            yTile++;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_A], 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_A], 4)) { 
             dialogVisible = false;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_B], 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_B], 4)) { 
             dialogVisible = false;
         }
-        if (PC::buttons.repeat(scene->controlMapping[BTN_C], 5)) { 
+        if (PC::buttons.repeat(scene->controlMapping[BTN_C], 4)) { 
             dialogVisible = false;
         }
 
 
         /**
-         * Change scene
+         * Check boundaries and change scene
          * */
         bool changeScene = false;
         Direction d;
-        if (x < 0 && scene->linksFlag & 1 << Direction::LEFT) {
+        if (xTile < 0 && scene->linksFlag & 1 << Direction::LEFT) {
             changeScene = true;
             d = Direction::LEFT;
         }
-        else if (x > worldWidth-TILE_SIZE && scene->linksFlag & 1 << Direction::RIGHT) {
+        else if (xTile > worldWidth / TILE_SIZE - 1 && scene->linksFlag & 1 << Direction::RIGHT) {
             changeScene = true;
             d = Direction::RIGHT;
         }
-        else if (y < 0 && scene->linksFlag & 1 << Direction::UP) {
+        else if (yTile < 0 && scene->linksFlag & 1 << Direction::UP) {
             changeScene = true;
             d = Direction::UP;
         }
-        else if (y > worldHeight-TILE_SIZE && scene->linksFlag & 1 << Direction::DOWN) {
+        else if (yTile > worldHeight / TILE_SIZE - 1 && scene->linksFlag & 1 << Direction::DOWN) {
             changeScene = true;
             d = Direction::DOWN;
         }
-        else if (x < 0 || x > worldWidth || y < 0 || y > worldHeight) {
+        else if (xTile < 0 || xTile+1 > worldWidth / TILE_SIZE || yTile < 0 || yTile+1 > worldHeight / TILE_SIZE) {
             // No link in this direction: "door is locked"
             dialogVisible = true;
             switch (rand() % 3) {
@@ -215,23 +217,27 @@ GameResult game()
             case 2:
                 dialogString = (char*)"This one's jammed...                             ";
             }
-            x = oldX;
-            y = oldY;
+            xTile = oldX;
+            yTile = oldY;
         }
         else {
             // Check the map tile under the player, if no change of scene
-            uint8_t tileId = tilemap.GetTileId(x + 6, y + 7, 16);
+            tileId = tilemap.GetTileId(xTile*TILE_SIZE, yTile*TILE_SIZE, 16);
+            
             // If the tile is not floor, do not move.
             if (WALKABLES.find((StationTile)tileId) == WALKABLES.end()/*tileId != StationTile::FLOOR0*/) {
-                x = oldX;
-                y = oldY;
+                xTile = oldX;
+                yTile = oldY;
             }
             if (tileId == StationTile::POD) { goto game_cleanup; }
         }
         if (changeScene) {
             pos_t newPos = scene->changeScene(d); // Get spawn position in next scene
-            x = newPos.x;
-            y = newPos.y;
+            xTile = newPos.x;
+            yTile = newPos.y;
+            // TODO: (opt) Make direction dependent and offset to animate walking into the room
+            x = xTile * TILE_SIZE;
+            y = yTile * TILE_SIZE;
             scene = scene->links[d]; // Change scene
 
             // Update tilemap
@@ -239,6 +245,13 @@ GameResult game()
             worldHeight = scene->getHeight() * PROJ_TILE_H;
             tilemap.set(scene->getWidth(), scene->getHeight(), scene->getTilemap());
         }
+
+
+        /**
+         * Move animation
+         * */
+        if (x < xTile * TILE_SIZE) { x+= SPEED; } else if (x > xTile * TILE_SIZE) { x-= SPEED; }
+        if (y < yTile * TILE_SIZE) { y+= SPEED; } else if (y > yTile * TILE_SIZE) { y-= SPEED; }
         
 
         /**Draw tilemap */
@@ -263,8 +276,22 @@ GameResult game()
         PD::print(timestring);
 
         // !!! DEBUG !!!
-        // if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
-        // if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
+        if (PC::buttons.repeat(BTN_A, 5)) { return GameResult::WIN; }
+        if (PC::buttons.repeat(BTN_B, 5)) { return GameResult::LOSS; }
+        PD::color = STRED;
+        PD::setCursor(2, 2);
+        PD::print("tile: ");
+        PD::print(tileId);
+        PD::setCursor(0, 16);
+        PD::print("x,y: ");
+        PD::print(x);
+        PD::print(" ");
+        PD::print(y);
+        PD::setCursor(0, 24);
+        PD::print("xTile,yTile: ");
+        PD::print(xTile);
+        PD::print(" ");
+        PD::print(yTile);
         // !!! DEBUG !!!
 
 

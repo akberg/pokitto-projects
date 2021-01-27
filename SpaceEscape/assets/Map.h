@@ -42,6 +42,7 @@ public:
     //Room(uint8_t width, uint8_t height, const uint8_t* entrances, const uint8_t* tilemap);
 
     bool has_entrance(Direction) const;
+    // Return tileId spawn position (multiply with TILE_SIZE to get render position)
     pos_t get_entrance(Direction) const;
 };
 

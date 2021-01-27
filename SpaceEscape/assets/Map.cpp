@@ -36,16 +36,16 @@ pos_t Room::get_entrance(Direction d) const {
     switch (d)
     {
     case Direction::UP:
-        return (pos_t){entrances[d]*TILE_SIZE, 0 };
+        return (pos_t){entrances[d], 0 };
         break;
     case Direction::DOWN:
-        return (pos_t){entrances[d]*TILE_SIZE, this->height*TILE_SIZE - TILE_SIZE };
+        return (pos_t){entrances[d], this->height - 1 };
         break;
     case Direction::LEFT:
-        return (pos_t){0, entrances[d]*TILE_SIZE};
+        return (pos_t){0, entrances[d]};
         break;
     case Direction::RIGHT:
-        return (pos_t){this->width*TILE_SIZE - TILE_SIZE, entrances[d]*TILE_SIZE};
+        return (pos_t){this->width - 1, entrances[d]};
         break;
     default:
         return {0, 0};

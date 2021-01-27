@@ -24,6 +24,8 @@ public:
     // other Scene links back
     void linkScene(Direction d, Scene* s);
 
+    // Get new tileId position when changing scene in the given direction
+    // (multiply by TILE_SIZE to get render position)
     pos_t changeScene(Direction);
 };
 
