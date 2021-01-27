@@ -123,6 +123,8 @@ GameResult game()
     x = scene->map.spawn_fallback.x * TILE_SIZE;
     y = scene->map.spawn_fallback.y * TILE_SIZE;
 
+    Direction facing = Direction::DOWN;
+
 
     /**
      * Set boundaries to scene values 
@@ -154,21 +156,25 @@ GameResult game()
          * */
         if (PC::buttons.repeat(scene->controlMapping[BTN_LEFT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
+            facing = Direction::LEFT;
             // x = x - 16;
             xTile--;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_RIGHT], 4) && x == xTile * TILE_SIZE) { 
             dialogVisible = false;
+            facing = Direction::RIGHT;
             // x = x + 16; 
             xTile++;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_UP], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
+            facing = Direction::UP;
             // y = y - 16; 
             yTile--;
         }
         else if (PC::buttons.repeat(scene->controlMapping[BTN_DOWN], 4) && y == yTile * TILE_SIZE) { 
             dialogVisible = false;
+            facing = Direction::DOWN;
             // y = y + 16; 
             yTile++;
         }
@@ -300,9 +306,33 @@ GameResult game()
          * */
         int16_t xPlayer;
         int16_t yPlayer;
+        int8_t sprite_index;
+
+        switch (facing)
+        {
+        case DOWN:
+            sprite_index = PFRONT_STILL;
+            break;
+        case UP:
+            sprite_index = PBACK_STILL;
+            break;
+        case LEFT:
+            sprite_index = PLEFT_STILL;
+            break;
+        case RIGHT:
+            sprite_index = PLEFT_STILL;
+        default:
+            break;
+        }
 
         calculatePlayerPosition(xPlayer, yPlayer);
-        PD::drawBitmapData(xPlayer, yPlayer, 16, 16, StationTiles[PFRONT_STILL]+2);
+
+        if (facing == Direction::RIGHT) {
+            PD::drawBitmapXFlipped(xPlayer, yPlayer, StationTiles[sprite_index]);
+        } else {        
+            //PD::drawBitmapData(xPlayer, yPlayer, 16, 16, StationTiles[sprite_index]+2);
+            PD::drawBitmap(xPlayer, yPlayer, StationTiles[sprite_index]);
+        }
 
 
         /**
