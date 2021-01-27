@@ -235,9 +235,9 @@ GameResult game()
                 xTile = oldX;
                 yTile = oldY;
             }
-            if (tileId == StationTile::POD) { goto game_cleanup; }
+            if (tileId == StationTile::POD && x == xTile*TILE_SIZE && y == yTile*TILE_SIZE) { goto game_cleanup; }
         }
-        if (changeScene) {
+        if (changeScene && x == xTile*TILE_SIZE && y == yTile*TILE_SIZE) {
             pos_t newPos = scene->changeScene(d); // Get spawn position in next scene
             xTile = newPos.x;
             yTile = newPos.y;
