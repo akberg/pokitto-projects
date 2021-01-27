@@ -308,26 +308,50 @@ GameResult game()
         int16_t yPlayer;
         int8_t sprite_index;
 
+        /* Sprite according to direction */
         switch (facing)
         {
         case DOWN:
-            sprite_index = PFRONT_STILL;
+            sprite_index = (uint8_t)PFRONT_STILL;
             break;
         case UP:
-            sprite_index = PBACK_STILL;
+            sprite_index = (uint8_t)PBACK_STILL;
             break;
         case LEFT:
-            sprite_index = PLEFT_STILL;
+            sprite_index = (uint8_t)PLEFT_STILL;
             break;
         case RIGHT:
-            sprite_index = PLEFT_STILL;
+            sprite_index = (uint8_t)PLEFT_STILL;
         default:
             break;
         }
 
         calculatePlayerPosition(xPlayer, yPlayer);
 
-        if (facing == Direction::RIGHT) {
+        /* Add animation */
+        switch (facing)
+        {
+        case UP:
+        case DOWN:  
+            if (abs(y - yTile * TILE_SIZE)) {
+                if (abs(y - yTile * TILE_SIZE) > TILE_SIZE / 2) {sprite_index += 2; }
+                else if (abs(y - yTile * TILE_SIZE) < TILE_SIZE / 2) {sprite_index += 1; }
+            }
+            break;
+        case LEFT:
+        case RIGHT:
+            if (abs(x - xTile * TILE_SIZE)) {
+                if (abs(x - xTile * TILE_SIZE) > TILE_SIZE / 2) {sprite_index += 2; }
+                else if (abs(x - xTile * TILE_SIZE) < TILE_SIZE / 2) {sprite_index += 1; }
+            }
+        break;
+        default:
+            break;
+        }
+        
+
+        if (facing == (uint8_t)Direction::RIGHT) {
+            /* Special case of left flipped used as RIGHT sprite */
             PD::drawBitmapXFlipped(xPlayer, yPlayer, StationTiles[sprite_index]);
         } else {        
             //PD::drawBitmapData(xPlayer, yPlayer, 16, 16, StationTiles[sprite_index]+2);
