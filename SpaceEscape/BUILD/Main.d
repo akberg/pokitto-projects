@@ -97,5 +97,5 @@ Main.o: ../Main.cpp /home/pokitto/PokittoLib/Pokitto/Pokitto.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_HW/iap.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_CORE/PokittoDisk.h \
  /home/pokitto/PokittoLib/Pokitto/POKITTO_LIBS/Tilemap/Tilemap.hpp \
- ../assets/StationTiles.h ../assets/TitleScreen.h \
- ../assets/StorySequence.h ../assets/Scene.h ../assets/Map.h
+ ../assets/StationTiles.hpp ../assets/TitleScreen.hpp \
+ ../assets/StorySequence.hpp ../assets/Scene.hpp ../assets/Map.hpp

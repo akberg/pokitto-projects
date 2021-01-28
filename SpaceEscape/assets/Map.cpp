@@ -1,4 +1,4 @@
-#include "Map.h"
+#include "Map.hpp"
 
 Direction dir_opposit(Direction d) {
     return (Direction)(((uint8_t)d+2)%NUM_DIRECTIONS);

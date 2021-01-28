@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "Map.h"
+#include "Map.hpp"
 
 class Scene {
 private:

@@ -1,2 +1,2 @@
-assets/Scene.o: ../assets/Scene.cpp ../assets/Scene.h ../assets/Map.h \
- ../assets/StationTiles.h
+assets/Scene.o: ../assets/Scene.cpp ../assets/Scene.hpp ../assets/Map.hpp \
+ ../assets/StationTiles.hpp
