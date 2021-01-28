@@ -1,9 +1,10 @@
 #include "Pokitto.h"
 #include "Tilemap.hpp"
-#include "assets/StationTiles.h"
-#include "assets/TitleScreen.h"
-#include "assets/StorySequence.h"
-#include "assets/Scene.h"
+
+#include "assets/StationTiles.hpp"
+#include "assets/TitleScreen.hpp"
+#include "assets/StorySequence.hpp"
+#include "assets/Scene.hpp"
 
 #include <unordered_set>
 #include <cstdlib>
