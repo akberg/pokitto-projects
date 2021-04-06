@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include <cstdlib>
 
+extern const Room room0, room1, room2, room3, room4, room5, room6, room7, room8, room_controlroom, room_podroom;
 
 Scene::Scene(const Room& map) : map(map) {
     this->linksFlag = 0;
@@ -9,7 +10,8 @@ Scene::Scene(const Room& map) : map(map) {
         this->controlMapping[i] = i;   
 }
 
-Scene::Scene(const Room& map, const uint16_t* controlMapping) : Scene(map) {
+Scene::Scene(const Room& map, const uint16_t* controlMapping) : map(map) {
+    this->linksFlag = 0;
     for (int i = 0; i < 7; i++)
         this->controlMapping[i] = controlMapping[i];
 }

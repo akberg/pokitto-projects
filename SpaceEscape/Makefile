@@ -7,9 +7,10 @@ PROJECT := spaceescape
 
 POKITTO_LIB_PATH = $(HOME)/PokittoLib/Pokitto
 
-OBJECTS += Main.o
+OBJECTS += assets/StationTiles.o
 OBJECTS += assets/Map.o
 OBJECTS += assets/Scene.o
+OBJECTS += Main.o
 #OBJECTS += World.o
 #OBJECTS += Player.o
 
@@ -316,7 +317,7 @@ ASM_FLAGS += -I$(POKITTO_LIB_PATH)/mbed-pokitto/targets/hal
 ASM_FLAGS += -I$(POKITTO_LIB_PATH)/mbed-pokitto/targets/hal/TARGET_NXP
 ASM_FLAGS += -I$(POKITTO_LIB_PATH)/mbed-pokitto/targets/hal/TARGET_NXP/TARGET_LPC11U6X
 
-LD_FLAGS :=-Wl,--gc-sections -Wl,--wrap,main -Wl,--wrap,_memalign_r -Wl,-n --specs=nano.specs -mcpu=cortex-m0plus -mthumb 
+LD_FLAGS :=-Wl,--gc-sections -Wl,--wrap,main -Wl,--wrap,_memalign_r -Wl,-n --specs=nano.specs -mcpu=cortex-m0plus -mthumb -Wl,-Map=map.txt
 LD_SYS_LIBS :=-Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys  -Wl,--end-group
 
 # Tools and Flags

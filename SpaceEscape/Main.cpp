@@ -2,12 +2,14 @@
 #include "Tilemap.hpp"
 
 #include "assets/StationTiles.hpp"
+
 #include "assets/TitleScreen.hpp"
 #include "assets/StorySequence.hpp"
 #include "assets/Scene.hpp"
 
-#include <unordered_set>
-#include <cstdlib>
+extern const std::unordered_set<StationTile> WALKABLES;
+extern const uint16_t StationTiles_pal[];
+extern const uint8_t StationTiles [][130];
 
 
 enum GameResult { WIN, LOSS };

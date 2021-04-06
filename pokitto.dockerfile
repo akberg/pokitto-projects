@@ -5,6 +5,7 @@ RUN apt update && \
 		git \
 		vim \
 		build-essential \
+        cmake \
 		libsdl2-dev \
 		libsdl2-net-dev \
 		libsdl2-image-dev \
@@ -15,6 +16,7 @@ RUN groupadd -g 1000 pokitto
 RUN useradd -d /home/pokitto -s /bin/bash -m pokitto -u 1000 -g 1000
 USER pokitto
 ENV HOME /home/pokitto
+
 
 RUN cd /home/pokitto && \
 		git config --global http.sslVerify false && \
@@ -40,3 +42,9 @@ RUN cd /home/pokitto && \
 		rm -fr BUILD && \
 		make clean && \
 		make POKITTO_LIB_PATH="/home/pokitto/PokittoLib/Pokitto" -j ${nproc} -k
+
+RUN git clone --recursive https://github.com/google/bloaty.git && \
+    cd bloaty && \
+    cmake . && \
+    make -j6 && \
+    mv bloaty /usr/bin/bloaty
