@@ -5,7 +5,7 @@ PROJECT := spaceescape
 
 # add files to be compiled
 
-POKITTO_LIB_PATH = $(HOME)/PokittoLib/Pokitto
+POKITTO_LIB_PATH = ../lib/PokittoLib/Pokitto
 
 OBJECTS += assets/StationTiles.o
 OBJECTS += assets/Map.o

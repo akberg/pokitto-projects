@@ -4,8 +4,9 @@ PROJECT := gameoflife
 ###############################################################################
 
 # add files to be compiled
+GIT_ROOT =$(git rev-parse --show-toplevel)
 
-POKITTO_LIB_PATH = $(HOME)/PokittoLib/Pokitto
+POKITTO_LIB_PATH =$(PWD)/../lib/PokittoLib/Pokitto
 
 OBJECTS += Main.o
 #OBJECTS += DynamicDisplay.o
