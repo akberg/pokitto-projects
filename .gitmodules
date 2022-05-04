@@ -1,3 +1,4 @@
 [submodule "lib/PokittoLib"]
 	path = lib/PokittoLib
 	url = git@github.com:pixelbath/PokittoLib.git
+	branch = 4db8133bda37c3f086d3a9bde4f37e1916cb09e5
