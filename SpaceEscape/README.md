@@ -5,7 +5,7 @@ Entry in Arm Norway's Game Jam on itch.io.
 
 ## Screenshots
 
-![in-game](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-0.PNG)
-![win screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-1.PNG)
-![intro screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-intro.PNG)
-![game over screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-gameover.PNG)
+![in-game](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-0.png)
+![win screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-1.png)
+![intro screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-intro.png)
+![game over screen](https://github.com/akberg/arm-gamejam-21/blob/master/SpaceEscape/screenshots/space-escape-gameover.png)
